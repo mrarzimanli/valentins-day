@@ -218,30 +218,79 @@ const secretCommand = 'npm install forever';
 let typedKeys = '';
 let isUnlocked = false;
 
-const typedTextElement = document.getElementById('typed-text');
+const typedTextInput = document.getElementById('typed-text-input');
+const typedTextMirror = document.getElementById('typed-text-mirror');
+const promptCursor = document.getElementById('prompt-cursor');
 const lockIcon = document.getElementById('lock-icon');
 const secretMessage = document.getElementById('secret-message');
 const hint = document.getElementById('hint');
 
+// Function to update cursor position
+function updateCursorPosition() {
+    typedTextMirror.textContent = typedTextInput.value;
+    const textWidth = typedTextMirror.offsetWidth;
+    promptCursor.style.left = textWidth + 'px';
+}
+
+// Handle input from the text field (works for both mobile and desktop)
+typedTextInput.addEventListener('input', (e) => {
+    if (isUnlocked) return;
+    
+    typedKeys = e.target.value;
+    updateCursorPosition();
+    
+    // Check if the typed text matches the secret command
+    if (typedKeys.toLowerCase() === secretCommand.toLowerCase()) {
+        unlockSecret();
+    }
+});
+
+// Auto-focus the input when the easter egg section becomes visible
+const easterEggObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && !isUnlocked) {
+            // Small delay to ensure smooth scrolling
+            setTimeout(() => {
+                typedTextInput.focus();
+            }, 500);
+        }
+    });
+}, { threshold: 0.5 });
+
+const easterEggSection = document.getElementById('easter-egg');
+easterEggObserver.observe(easterEggSection);
+
+// Also allow clicking on the terminal prompt area to focus
+document.getElementById('terminal-prompt').addEventListener('click', () => {
+    if (!isUnlocked) {
+        typedTextInput.focus();
+    }
+});
+
+// Keep global keydown for desktop users who want to type without focusing
 document.addEventListener('keydown', (e) => {
     // Only track when easter egg section is visible
-    const easterEggSection = document.getElementById('easter-egg');
     const rect = easterEggSection.getBoundingClientRect();
     const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
 
     if (!isVisible || isUnlocked) return;
+    
+    // Don't interfere if the input is already focused
+    if (document.activeElement === typedTextInput) return;
 
     // Handle backspace
     if (e.key === 'Backspace') {
         typedKeys = typedKeys.slice(0, -1);
-        typedTextElement.textContent = typedKeys;
+        typedTextInput.value = typedKeys;
+        updateCursorPosition();
         return;
     }
 
     // Only accept letters, numbers, and space
     if (e.key.length === 1) {
         typedKeys += e.key;
-        typedTextElement.textContent = typedKeys;
+        typedTextInput.value = typedKeys;
+        updateCursorPosition();
 
         // Check if the typed text matches the secret command
         if (typedKeys.toLowerCase() === secretCommand.toLowerCase()) {

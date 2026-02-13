@@ -154,8 +154,11 @@
                 </div>
                 <div class="terminal-prompt" id="terminal-prompt">
                     <span class="prompt-symbol">$</span>
-                    <span class="typed-text" id="typed-text"></span>
-                    <span class="prompt-cursor"></span>
+                    <div class="input-wrapper">
+                        <input type="text" class="typed-text-input" id="typed-text-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                        <span class="typed-text-mirror" id="typed-text-mirror"></span>
+                        <span class="prompt-cursor" id="prompt-cursor"></span>
+                    </div>
                 </div>
                 <div class="secret-message" id="secret-message">
                     <div class="success-icon">✓</div>

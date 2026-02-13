@@ -105,7 +105,6 @@ body {
 /* Timeline Section */
 .timeline-section {
     background-color: #121212;
-    padding: 4rem 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -636,6 +635,8 @@ body {
     display: flex;
     align-items: center;
     min-height: 60px;
+    cursor: text;
+    position: relative;
 }
 
 .prompt-symbol {
@@ -644,17 +645,54 @@ body {
     margin-right: 0.5rem;
 }
 
-.typed-text {
-    color: #e0e0e0;
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.typed-text-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Courier New', monospace;
     font-size: 1rem;
+    color: #e0e0e0;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    caret-color: transparent;
+}
+
+.typed-text-input:focus {
+    outline: none;
+    border: none;
+}
+
+.typed-text-mirror {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    color: transparent;
+    white-space: pre;
+    pointer-events: none;
+    visibility: hidden;
 }
 
 .prompt-cursor {
-    display: inline-block;
+    position: absolute;
     width: 8px;
     height: 18px;
     background-color: #8D5BC1;
     animation: blink 0.7s infinite;
+    margin-left: 2px;
+    pointer-events: none;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .secret-message {
@@ -833,6 +871,14 @@ body {
 
     .terminal-prompt {
         padding: 1rem;
+        font-size: 0.85rem;
+    }
+
+    .typed-text-input {
+        font-size: 0.85rem;
+    }
+
+    .typed-text-mirror {
         font-size: 0.85rem;
     }
 
