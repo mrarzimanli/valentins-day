@@ -589,10 +589,20 @@ body {
     width: 60px;
     height: 70px;
     transition: all 0.5s ease;
+    cursor: pointer;
+}
+
+.lock-icon:hover {
+    transform: scale(1.1);
 }
 
 .lock-icon.unlocked {
     animation: unlockShake 0.5s ease;
+    cursor: default;
+}
+
+.lock-icon.unlocked:hover {
+    transform: scale(1);
 }
 
 @keyframes unlockShake {
@@ -647,6 +657,13 @@ body {
     min-height: 60px;
     cursor: text;
     position: relative;
+    transition: all 0.3s ease;
+}
+
+.terminal-prompt:hover {
+    border-color: #8D5BC1;
+    box-shadow: 0 0 10px rgba(141, 91, 193, 0.2);
+    background-color: #0f0a12;
 }
 
 .prompt-symbol {
@@ -781,6 +798,15 @@ body {
     font-size: 0.85rem;
     font-style: italic;
     transition: opacity 0.3s ease;
+}
+
+.hint p {
+    margin: 0.3rem 0;
+}
+
+.hint-command {
+    color: #8D5BC1;
+    font-style: normal;
 }
 
 .hint.hidden {

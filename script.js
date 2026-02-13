@@ -258,23 +258,17 @@ typedTextInput.addEventListener('input', (e) => {
     }
 });
 
-// Auto-focus the input when the easter egg section becomes visible
-const easterEggObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting && !isUnlocked) {
-            // Small delay to ensure smooth scrolling
-            setTimeout(() => {
-                typedTextInput.focus();
-            }, 500);
-        }
-    });
-}, { threshold: 0.5 });
-
 const easterEggSection = document.getElementById('easter-egg');
-easterEggObserver.observe(easterEggSection);
 
-// Also allow clicking on the terminal prompt area to focus
+// Click on the terminal prompt area to focus (only way to open keyboard on mobile)
 document.getElementById('terminal-prompt').addEventListener('click', () => {
+    if (!isUnlocked) {
+        typedTextInput.focus();
+    }
+});
+
+// Also allow clicking on the lock icon to focus
+lockIcon.addEventListener('click', () => {
     if (!isUnlocked) {
         typedTextInput.focus();
     }
